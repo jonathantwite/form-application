@@ -1,0 +1,17 @@
+@mixin makeAreas($columns) {
+    @for $col from 1 through $columns {
+        .area#{$col} {
+            grid-column: $col;
+            grid-row: 1;
+        }
+    }
+}
+
+$numOfColumns: 4;
+
+@include makeAreas($numOfColumns);
+
+.main {
+    display: grid;
+    grid-template-columns: repeat($numOfColumns, 1fr);
+}

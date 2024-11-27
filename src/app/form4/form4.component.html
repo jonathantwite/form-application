@@ -1,0 +1,123 @@
+<h2>Reactive Form (Form Builder)</h2>
+
+<form [formGroup]="NewElectorForm" (ngSubmit)="onSubmit()">
+    <div class="form-item">
+        <label for="forename">Forename:</label>
+        <input formControlName="Forename" type="text" id="forename" name="forename" 
+            [class.is-invalid]="Forename?.invalid && Forename?.touched" />
+        <div *ngIf="Forename?.invalid && Forename?.touched">
+            <small *ngIf="Forename?.errors?.['required']">Forename is required</small>
+            <small *ngIf="Forename?.errors?.['minlength']">Forename must be at least 3 letters long</small>
+            <small *ngIf="Forename?.errors?.['regexFormat']">Forename must start with a capital letter (currently "{{Forename?.errors?.['regexFormat'].value.toString().charAt(0)}}")</small>
+        </div>
+    </div>
+
+    <div class="form-item">
+        <label for="surname">Surname:</label>
+        <input formControlName="Surname" type="text" id="surname" name="surname"
+            [class.is-invalid]="NewElectorForm.get('Surname')?.invalid && NewElectorForm.get('Surname')?.touched"  />
+        <small [class.d-none]="NewElectorForm.get('Surname')?.valid || NewElectorForm.get('Surname')?.untouched">Surname is required</small>
+    </div>
+    
+    <div class="form-item">
+        <label for="email">Email:</label>
+        <input formControlName="Email" type="text" id="email" name="email" />
+        <div *ngIf="Email?.invalid && Email?.touched">
+            <small *ngIf="Email?.errors?.['required']">Email is required</small>
+            <small *ngIf="Email?.errors?.['emailFormat']">Email must be in the correct format</small>
+        </div>
+    </div>
+    
+    <div formGroupName="Address">
+        <div class="form-item">
+            <label for="addressLine1">Address line 1:</label>
+            <input formControlName="AddressLine1" type="text" id="addressLine1" name="addressLine1">
+        </div>
+        <div class="form-item">
+            <label for="addressLine2">Address line 2:</label>
+            <input formControlName="AddressLine2" type="text" id="addressLine2" name="addressLine2">
+        </div>
+        <div class="form-item">
+            <label for="addressLine3">Address line 3:</label>
+            <input formControlName="AddressLine3" type="text" id="addressLine3" name="addressLine3">
+        </div>
+        <div class="form-item">
+            <label for="addressLine4">Address line 4:</label>
+            <input formControlName="AddressLine4" type="text" id="addressLine4" name="addressLine4">
+        </div>
+        <div class="form-item">
+            <label for="addressLine5">Address line 5:</label>
+            <input formControlName="AddressLine5" type="text" id="addressLine5" name="addressLine5">
+        </div>
+        <div class="form-item">
+            <label for="addressLine6">Address line 6:</label>
+            <input formControlName="AddressLine6" type="text" id="addressLine6" name="addressLine6">
+        </div>
+        <div class="form-item">
+            <label for="postcode">Postcode:</label>
+            <input formControlName="Postcode" type="text" id="postcode" name="postcode">
+        </div>
+
+        <small [class.d-none]="Address?.valid || Address?.untouched">Either Address line 1 or Address line 2 is required</small>
+    </div>
+    
+    <div class="form-item">
+        <label for="nationality">Nationality:</label>
+        <select formControlName="Nationality" name="nationality" id="nationality">
+            <option *ngFor="let nationality of Nationalities" [ngValue]="nationality.Code">{{nationality.Description}}</option>
+        </select>
+    </div>
+
+    <fieldset class="form-item">
+        <legend>Request absent vote:</legend>
+        <div class="form-item">
+            <label for="requestAVNone">None:</label>
+            <input formControlName="RequestAbsentVote" type="radio" id="requestAVNone" name="RequestAbsentVote" value="None" />
+        </div>
+        <div class="form-item">
+            <label for="requestAVPostal">Postal:</label>
+            <input formControlName="RequestAbsentVote" type="radio" id="requestAVPostal" name="RequestAbsentVote" value="Postal" />
+        </div>
+        <div class="form-item">
+            <label for="requestAVProxy">Proxy:</label>
+            <input formControlName="RequestAbsentVote" type="radio" id="requestAVProxy" name="RequestAbsentVote" value="Proxy" />
+        </div>
+        <div class="form-item">
+            <label for="requestAVPostalProxy">Postal Proxy:</label>
+            <input formControlName="RequestAbsentVote" type="radio" id="requestAVPostalProxy" name="RequestAbsentVote" value="PostalProxy" />
+        </div>
+        <div class="form-item">
+            <label for="proxyName">Proxy name:</label>
+            <input formControlName="ProxyName" type="text" id="proxyName" name="proxyName"
+                [class.is-invalid]="ProxyName?.invalid && ProxyName?.touched">
+            <small [class.d-none]="ProxyName?.valid || ProxyName?.untouched">Proxy name is required</small>
+        </div>
+
+    </fieldset>
+    
+    <fieldset class="form-item">
+        <legend>Phone numbers:</legend>
+
+        <div formArrayName="PhoneNumbers" *ngFor="let phone of PhoneNumbers.controls; let i=index" class="form-item">
+            <button (click)="deletePhoneNumber(i)">Del</button>
+            <input [formControlName]="i" type="text" id="phoneNumber" name="phoneNumber">
+            <small [class.d-none]="phone.valid || phone.untouched">Phone number is required</small>
+        </div>
+
+        <button type="button" (click)="addPhoneNumber()">Add</button>
+    </fieldset>
+
+    <div class="form-item">
+        <label for="optOut">Opt out of public register:</label>
+        <input formControlName="OptOut" type="checkbox" id="optOut" name="optOut" />
+    </div>
+
+    <button type="submit" [disabled]="!NewElectorForm.valid">Submit</button>
+    <button type="button" (click)="loadDummyData()">Load Dummy Data</button>
+    <button type="button" (click)="loadSomeData()">Load Some Data</button>
+
+    <pre class="code">
+{{ NewElectorForm.value | json }}
+    </pre>
+
+</form>

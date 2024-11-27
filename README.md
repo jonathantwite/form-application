@@ -1,27 +1,28 @@
 # FormApplication
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.1.
+Test application to investigate four different ways of making a form using Angular
 
-## Development server
+## Template Driven Form (Angular defined model)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+* Very simple form
+* Defined in HTML
+* Suitable for newsletter sign up or similar forms
 
-## Code scaffolding
+## Template Driven Form (User defined model)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+* Allows validation
+* Valid, touched and pristine parameters can be styled
+* Still defined in HTML
 
-## Build
+## Reactive Form
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+* Defined in code
+* Allows loading of data (can be selective)
+* Allows testing of validation etc.
+* Allows adding and removing elements, for example, using `FormArray` with a for-loop in HTML
+* More code than TDF
 
-## Running unit tests
+## Reactive Form (Form Builder)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+* Easier syntax for Reactive Forms
+* Reduces the amount of code

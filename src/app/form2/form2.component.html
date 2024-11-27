@@ -1,0 +1,129 @@
+<h2>Template Driven Form (User defined model)</h2>
+
+<div *ngIf="ErrorMessage">
+    {{ErrorMessage}}
+</div>
+
+<form #newElectorForm="ngForm" 
+    novalidate 
+    *ngIf="!Submitted"
+    (ngSubmit)="onSubmit()">
+
+    <div class="form-item">
+        <label for="forename">Forename:</label>
+        <input type="text" id="forename" name="forename" [(ngModel)]="NewElectorModel.Forename" required #forename="ngModel" />
+        <small [class.d-none]="forename.valid || forename.untouched">Forename is required</small>
+    </div>
+
+    <div class="form-item">
+        <label for="surname">Surname:</label>
+        <input type="text" id="surname" name="surname" [(ngModel)]="NewElectorModel.Surname" required #surname="ngModel" [class.is-invalid]="surname.invalid && surname.touched" />
+        <small [class.d-none]="surname.valid || surname.untouched">Surname is required</small>
+    </div>
+    
+    <div class="form-item">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" [(ngModel)]="NewElectorModel.Email" required pattern=".+@.+\..+" #email="ngModel" [class.is-invalid]="email.invalid && email.touched" />
+        <div *ngIf="email.errors && (email.invalid && email.touched)">
+            <small *ngIf="email.errors['required']">Email is required</small>
+            <small *ngIf="email.errors['pattern']">Email must be in the correct format</small>
+        </div>
+    </div>
+
+    <div ngModelGroup="address">
+        <div class="form-item">
+            <label for="addressLine1">Address line 1:</label>
+            <input type="text" id="addressLine1" name="addressLine1" [(ngModel)]="NewElectorModel.Address.AddressLine1">
+        </div>
+        <div class="form-item">
+            <label for="addressLine2">Address line 2:</label>
+            <input type="text" id="addressLine2" name="addressLine2" [(ngModel)]="NewElectorModel.Address.AddressLine2">
+        </div>
+        <div class="form-item">
+            <label for="addressLine3">Address line 3:</label>
+            <input type="text" id="addressLine3" name="addressLine3" [(ngModel)]="NewElectorModel.Address.AddressLine3">
+        </div>
+        <div class="form-item">
+            <label for="addressLine4">Address line 4:</label>
+            <input type="text" id="addressLine4" name="addressLine4" [(ngModel)]="NewElectorModel.Address.AddressLine4">
+        </div>
+        <div class="form-item">
+            <label for="addressLine5">Address line 5:</label>
+            <input type="text" id="addressLine5" name="addressLine5" [(ngModel)]="NewElectorModel.Address.AddressLine5">
+        </div>
+        <div class="form-item">
+            <label for="addressLine6">Address line 6:</label>
+            <input type="text" id="addressLine6" name="addressLine6" [(ngModel)]="NewElectorModel.Address.AddressLine6">
+        </div>
+        <div class="form-item">
+            <label for="postcode">Postcode:</label>
+            <input type="text" id="postcode" name="postcode" [(ngModel)]="NewElectorModel.Address.Postcode">
+        </div>
+    </div>
+
+    <div class="form-item">
+        <label for="nationality">Nationality:</label>
+        <select name="nationality" id="nationality" #nationality="ngModel" [(ngModel)]="NewElectorModel.Nationality" 
+            (blur)="validateNationality(nationality.value)" 
+            (change)="validateNationality(nationality.value)"
+            [class.is-invalid]="NationalityHasError && nationality.touched">
+            <option *ngFor="let nationality of Nationalities" [ngValue]="nationality.Code">{{nationality.Description}}</option>
+        </select>
+        <small [class.d-none]="!NationalityHasError || nationality.untouched">Please use <a href='#'>Non-eligible Citizen Wizard</a>.</small>
+    </div>
+
+    <fieldset class="form-item">
+        <legend>Request absent vote:</legend>
+        <div class="form-item">
+            <label for="requestAVNone">None:</label>
+            <input type="radio" id="requestAVNone" name="requestPostalVote" value="None" [(ngModel)]="NewElectorModel.RequestAbsentVote" />
+        </div>
+        <div class="form-item">
+            <label for="requestAVPostal">Postal:</label>
+            <input type="radio" id="requestAVPostal" name="requestPostalVote" value="Postal" [(ngModel)]="NewElectorModel.RequestAbsentVote" />
+        </div>
+        <div class="form-item">
+            <label for="requestAVProxy">Proxy:</label>
+            <input type="radio" id="requestAVProxy" name="requestPostalVote" value="Proxy" [(ngModel)]="NewElectorModel.RequestAbsentVote" />
+        </div>
+        <div class="form-item">
+            <label for="requestAVPostalProxy">Postal Proxy:</label>
+            <input type="radio" id="requestAVPostalProxy" name="requestPostalVote" value="PostalProxy" [(ngModel)]="NewElectorModel.RequestAbsentVote" />
+        </div>
+    </fieldset>
+    
+    <div class="form-item">
+        <label for="optOut">Opt out of public register:</label>
+        <input type="checkbox" id="optOut" name="optOut" [(ngModel)]="NewElectorModel.OptOut" />
+    </div>
+
+    <button type="submit" [disabled]="newElectorForm.form.invalid || NationalityHasError">Submit</button>
+
+    <pre class="code">
+{{ NewElectorModel | json}}
+
+Forename:
+Untouched: {{forename.untouched}}
+Valid: {{forename.valid}}
+Pristine: {{forename.pristine}}
+
+Surname:
+Untouched: {{surname.untouched}}
+Valid: {{surname.valid}}
+Pristine: {{surname.pristine}}
+
+Email:
+Untouched: {{email.untouched}}
+Valid: {{email.valid}}
+Pristine: {{email.pristine}}
+
+Form:
+Untouched: {{newElectorForm.untouched}}
+Valid: {{newElectorForm.valid}}
+Pristine: {{newElectorForm.pristine}}
+NationalityHasError: {{NationalityHasError}}
+
+    </pre>
+</form>
+
+<div *ngIf="Submitted"><h3>Submitted</h3></div>

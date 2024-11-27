@@ -1,1 +1,52 @@
 /* You can add global styles to this file, and also import other style files */
+.code {
+    background-color: hsl(0, 0%, 95%);
+    border: 1px solid darken($color: hsl(0, 0%, 95%), $amount: 10);
+    padding: 1rem;
+    //white-space: pre-line;
+}
+
+fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+    legend{
+      padding: 0;
+    }
+}
+
+.ng-untouched {
+
+}
+
+.ng-touched {
+
+}
+
+.ng-pristine {
+
+}
+
+.ng-dirty {
+
+}
+
+.ng-valid {
+
+}
+
+.ng-invalid {
+
+}
+
+.ng-invalid.ng-touched {
+    border-color: red;
+}
+
+.is-invalid {
+    border-color: maroon;
+}
+
+.d-none {
+    display: none !important;
+}
